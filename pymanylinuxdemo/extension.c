@@ -1,6 +1,6 @@
 #include "Python.h"
 #include "cblas.h"
-
+#include "extension2.h"
 
 /* The wrapper to the underlying C function */
 static PyObject *
@@ -59,8 +59,20 @@ py_dot(PyObject *self, PyObject *args)
     return PyFloat_FromDouble(result);
 }
 
+static PyObject *
+py_sqrt(PyObject *self, PyObject *args)
+{
+    double *x;
+    if (!PyArg_ParseTuple(args, "d", &x)) {
+        return NULL;
+    }
+    double result = calcSqrt(*x);
+    return PyFloat_FromDouble(result);
+}
+
 static PyMethodDef module_functions[] = {
 	{"dot",  py_dot, METH_VARARGS, NULL},
+    {"sqrt", py_sqrt, METH_VARARGS, NULL},
 	{NULL, NULL}      /* sentinel */
 };
 
